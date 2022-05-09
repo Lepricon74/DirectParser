@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Direct.Client.Interfaces;
 using Direct.Client.Providers;
 using Direct.Client.Services;
@@ -16,17 +15,15 @@ namespace Direct.Parser
         static async Task Main(string[] args)
         {
             var serviceCollection = new ServiceCollection();
-
             RegisterDependencies(serviceCollection);
-
             var serviceProvider = serviceCollection.BuildServiceProvider();
-
-            //while (true) {
-                var directClient = serviceProvider.GetService<DirectClient>();
-                var list = await directClient.GetCampaignsList();
-                //Console.WriteLine(list);
-                //await Task.Delay(5000);
-            //}
+            var directClient = serviceProvider.GetService<DirectClient>();
+            //Получить все рекламные компании
+            var allAampaigns = await directClient.GetAllCampaigns();
+            //Получить все группы объявлений во всех компаниях
+            var allAdGroups = await directClient.GetAllAdGroups();
+            //Получить все объявления в аккаунте
+            var allAds = await directClient.GetAllAds();
         }
 
         private static void RegisterDependencies(IServiceCollection serviceCollection) {
@@ -37,7 +34,10 @@ namespace Direct.Parser
                 .AddSingleton<HttpClient>()
                 .AddSingleton<SafeJsonSerializer>()
                 .AddSingleton<DirectHttpRequestBuilder>()
+                .AddSingleton<DirectRequestSender>()
                 .AddSingleton<CampaignsService>()
+                .AddSingleton<AdGroupsService>()
+                .AddSingleton<AdsService>()
                 .AddSingleton<DirectClient>();
         }
     }

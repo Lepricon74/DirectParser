@@ -16,7 +16,7 @@ namespace Direct.Client.Helpers
         public HttpRequestMessage PrepareRequest( Func<Uri> getUriToService) {
             var request = new HttpRequestMessage
             {
-                Method = HttpMethod.Get,
+                Method = HttpMethod.Post,
                 RequestUri = getUriToService(),
             };
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", tokenProvider.GetToken());
