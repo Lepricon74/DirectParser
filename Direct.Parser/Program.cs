@@ -7,6 +7,7 @@ using Direct.Client;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Direct.Client.Extensions;
+using Direct.Client.Helpers;
 
 namespace Direct.Parser
 {
@@ -35,6 +36,7 @@ namespace Direct.Parser
                 .AddSingleton<IUriProvider, DirectApiSandboxUrlProvider>()
                 .AddSingleton<HttpClient>()
                 .AddSingleton<SafeJsonSerializer>()
+                .AddSingleton<DirectHttpRequestBuilder>()
                 .AddSingleton<CampaignsService>()
                 .AddSingleton<DirectClient>();
         }
