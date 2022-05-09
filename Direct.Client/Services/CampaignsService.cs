@@ -10,6 +10,7 @@ using System.Text.Json;
 using Direct.Client.Extensions;
 using Direct.Client.Models.Errors;
 using Direct.Client.Helpers;
+using Direct.Client.Models.Campaigns;
 
 namespace Direct.Client.Services
 {
@@ -35,20 +36,42 @@ namespace Direct.Client.Services
             this.requestBuilder = requestBuilder;
         }
 
+        public enum AvailableRequestFieldNames
+        {
+            Id,
+            Name,
+            StartDate,
+            EndDate,
+            Type,
+            Status
+        }
+
         private Uri GetUriToCampaingsService() {
             return new Uri(uriProvider.GetUri().AbsoluteUri + "/campaigns");
         }
 
-        public async Task<CampaignsList> GetCampaignsList()
+        public async Task<CampaignsResponseResult> GetAllCampaigns()
         {
+            var actionName = "GET-ALL-CAMPAINGS";
             var request = requestBuilder.PrepareRequest(GetUriToCampaingsService);
-            request.Content = new StringContent(@"{""method"": ""get"",""params"": {""SelectionCriteria"": { },""FieldNames"": [""Id"", ""Name""] }}", Encoding.UTF8, "application/json");
-            log.Info($"START-GET-CAMPAINGS-LIST Uri:{request.RequestUri}");
+            var requestContent = new DirectRequest<CampaignsRequestSelectionCriteria>(
+                    "get",
+                    new Params<CampaignsRequestSelectionCriteria>(
+                        new CampaignsRequestSelectionCriteria(new int[] { }),
+                        Enum.GetNames(typeof(AvailableRequestFieldNames))
+                        )
+                );
+            request.Content = new StringContent(JsonSerializer.Serialize(requestContent), Encoding.UTF8, "application/json");
+            log.Info($"START-{actionName} Uri:{request.RequestUri}");
             var result = await httpClient.SendAsync(request).ConfigureAwait(false);
             var body = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
-            var deserializeResult = serializer.TryDirectResponseDeserialize<DirectResponse<CampaignsList>>(body, "GET-CAMPAINGS-LIST");
-            log.Info($"FINISH-GET-CAMPAINGS-LIST Uri:{request.RequestUri}");
-            return deserializeResult.result;
+            var deserializeResult = serializer.TryDirectResponseDeserialize<DirectResponse<CampaignsResponseResult>>(body, actionName);
+            if (deserializeResult != null)
+            {
+                log.Info($"FINISH-{actionName} Uri:{request.RequestUri}");
+                return deserializeResult?.result;
+            }
+            else return null;
         }
     }
 }

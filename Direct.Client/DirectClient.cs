@@ -15,8 +15,8 @@ namespace Direct.Client
             this.campaingsService = campaingsService;
         }
 
-        public async Task<CampaignsList> GetCampaignsList() {
-            return await campaingsService.GetCampaignsList();
+        public async Task<CampaignsResponseResult> GetCampaignsList() {
+            return await campaingsService.GetAllCampaigns();
         }
     }
 }

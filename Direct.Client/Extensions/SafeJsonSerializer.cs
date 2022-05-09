@@ -41,8 +41,8 @@ namespace Direct.Client.Extensions
             {
                 try
                 {
-                    var directError = SafeDeserialize<DirectError<RequestError>>(body);
                     log.Warn(ex1.Message);
+                    var directError = SafeDeserialize<DirectError<RequestError>>(body);                  
                     log.Warn($"{actionName}-FAILED Reason:{directError.error.error_string} Request_ID:{directError.error.request_id} Error_Code:{directError.error.error_code}");
                 }
                 catch (JsonException ex2)
