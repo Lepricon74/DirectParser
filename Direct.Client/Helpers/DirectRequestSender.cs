@@ -26,7 +26,10 @@ namespace Direct.Client.Helpers
             this.serializer = serializer;
             this.requestBuilder = requestBuilder;
         }
-        public async Task<ResponseType> SendDirectRequest<RequestType, ResponseType>(Func<RequestType> getRequestContent, Func<Uri> getServiceUri, string actionName) 
+        public async Task<ResponseType> SendDirectRequest<RequestType, ResponseType>(
+            Func<RequestType> getRequestContent, 
+            Func<Uri> getServiceUri, 
+            string actionName) 
             where RequestType : class
             where ResponseType : class
         {

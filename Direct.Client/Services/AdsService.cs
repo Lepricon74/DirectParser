@@ -39,7 +39,11 @@ namespace Direct.Client.Services
             return new Uri(uriProvider.GetUri().AbsoluteUri + "/ads");
         }
 
-        public async Task<AdsResponseResult> GetAds(long[] CampaignIds, long[] AdGroupsIds, string[] selectFields = null, string[] selectTextAdFields = null)
+        public async Task<AdsResponseResult> GetAds(
+            long[] CampaignIds, 
+            long[] AdGroupsIds, 
+            string[] selectFields = null, 
+            string[] selectTextAdFields = null)
         {
             var actionName = "GET-ALL-ADS";
             DirectRequest<CommonRequestParams<AdsRequestSelectionCriteria>> GetRequestContent()
