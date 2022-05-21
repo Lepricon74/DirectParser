@@ -19,11 +19,11 @@ namespace Direct.Parser
             var serviceProvider = serviceCollection.BuildServiceProvider();
             var directClient = serviceProvider.GetService<DirectClient>();
             //Получить все рекламные компании
-            //var allAampaigns = await directClient.GetAllCampaigns();
+            var allCampaigns = await directClient.GetAllCampaigns();
             //Получить все группы объявлений во всех компаниях
             //var allAdGroups = await directClient.GetAllAdGroups();
             //Получить все объявления в аккаунте
-            var allAds = await directClient.GetAllAds();
+            //var allAds = await directClient.GetAllAds();
         }
 
         private static void RegisterDependencies(IServiceCollection serviceCollection) {
