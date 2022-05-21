@@ -36,22 +36,19 @@ namespace Direct.Client.Services
         public async Task<AdGroupsResponseResult> GetAdGroups(long[] CampaignIds)
         {
             var actionName = "GET-ALL-ADGROUPS";
-            DirectRequest<CommonRequestParams<AdGroupsRequestSelectionCriteria>> GetRequestContent()
+            CommonRequestParams<AdGroupsRequestSelectionCriteria> GetRequestParams()
             {
-                return new DirectRequest<CommonRequestParams<AdGroupsRequestSelectionCriteria>>(
-                    "get",
-                    new CommonRequestParams<AdGroupsRequestSelectionCriteria>(
-                        new AdGroupsRequestSelectionCriteria(new long[] { }, CampaignIds),
-                        Enum.GetNames(typeof(AvailableRequestFieldNames)))
-                );
+                return new CommonRequestParams<AdGroupsRequestSelectionCriteria>(
+                    new AdGroupsRequestSelectionCriteria(new long[] { }, CampaignIds),
+                    Enum.GetNames(typeof(AvailableRequestFieldNames)));
             }
-            var campaignsResponseResult = await directRequestSender.SendDirectRequest<
-                DirectRequest<CommonRequestParams<AdGroupsRequestSelectionCriteria>>,
-                DirectResponse<AdGroupsResponseResult>>(
-                    GetRequestContent,
+            var campaignsResponseResult = await directRequestSender.SendDirectGetRequest<
+                CommonRequestParams<AdGroupsRequestSelectionCriteria>,
+                AdGroupsResponseResult>(
+                    GetRequestParams,
                     GetUriToAdGroupsService,
                     actionName);
-            return campaignsResponseResult.result;
+            return campaignsResponseResult;
         }
     }
 }

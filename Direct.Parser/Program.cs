@@ -32,7 +32,7 @@ namespace Direct.Parser
                 .AddSingleton<IAuthTokenProvider, AuthTokenProvider>()
                 .AddSingleton<IUriProvider, DirectApiSandboxUrlProvider>()
                 .AddSingleton<HttpClient>()
-                .AddSingleton<SafeJsonSerializer>()
+                .AddSingleton<SafeJsonResponseDeserializer>()
                 .AddSingleton<DirectHttpRequestBuilder>()
                 .AddSingleton<DirectRequestSender>()
                 .AddSingleton<CampaignsService>()
