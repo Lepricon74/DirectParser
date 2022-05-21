@@ -46,9 +46,9 @@ namespace Direct.Client.Services
             string[] selectTextAdFields = null)
         {
             var actionName = "GET-ALL-ADS";
-            DirectRequest<CommonRequestParams<AdsRequestSelectionCriteria>> GetRequestContent()
+            DirectRequest<AdsRequestParams<AdsRequestSelectionCriteria>> GetRequestContent()
             {
-                return new DirectRequest<CommonRequestParams<AdsRequestSelectionCriteria>>(
+                return new DirectRequest<AdsRequestParams<AdsRequestSelectionCriteria>>(
                     "get",
                     new AdsRequestParams<AdsRequestSelectionCriteria>(
                         new AdsRequestSelectionCriteria(new long[] { }, AdGroupsIds, CampaignIds),
@@ -57,7 +57,7 @@ namespace Direct.Client.Services
                     );
             }
             var campaignsResponseResult = await directRequestSender.SendDirectRequest<
-                DirectRequest<CommonRequestParams<AdsRequestSelectionCriteria>>,
+                DirectRequest<AdsRequestParams<AdsRequestSelectionCriteria>>,
                 DirectResponse<AdsResponseResult>>(
                     GetRequestContent,
                     GetUriToAdGroupsService,
