@@ -54,7 +54,7 @@ namespace Direct.Client.Helpers
             var deserializeResult = serializer.TryDirectResponseDeserialize<ResponseResultType>(body, actionName);
             if (deserializeResult != null)
             {
-                log.Info($"FINISH--REQUEST-{actionName}");
+                log.Info($"FINISH-REQUEST-{actionName}");
                 return deserializeResult.result;
             }
             else return default;
@@ -88,9 +88,7 @@ namespace Direct.Client.Helpers
                     sb.Append(curPrefix);
                 }
             }
-            //var result = sb.Replace(",", "\n").ToString();
-            var result = sb.ToString();
-            return result;
+            return sb.ToString();
         }
     }
 }
