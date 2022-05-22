@@ -20,14 +20,14 @@ namespace Direct.Parser
                                                    new CancellationTokenSource();
 
         private readonly ServiceProvider serviceProvider;
-        private readonly DirectClient directClient;
+        private readonly DirectParser directParser;
         private readonly ILog log;
         public DirectParserService() {
             var serviceCollection = new ServiceCollection();
-            RegisterDependencies(serviceCollection);
+            RegisterDirectParser(serviceCollection);
             serviceProvider = serviceCollection.BuildServiceProvider();
             log = serviceProvider.GetService<ILog>();
-            directClient = serviceProvider.GetService<DirectClient>();
+            directParser = serviceProvider.GetService<DirectParser>();
         }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -39,30 +39,16 @@ namespace Direct.Parser
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                log.Info($"DirectParser task doing background work.");
-
-                // This eShopOnContainers method is querying a database table
-                // and publishing events into the Event Bus (RabbitMQ / ServiceBus)
-                await ParseAds();
-
+                log.Info($"DirectParserService task doing background work.");
+                await directParser.ParseAds();
                 await Task.Delay(10000, stoppingToken);
             }
 
-            log.Info($"DirectParser background task is stopping.");
-        }
-    
-        public async Task ParseAds()
-        {
-            //Получить все рекламные компании
-            var allCampaigns = await directClient.GetAllCampaigns();
-            log.Info("Ads parsed!!!");
-            //Получить все группы объявлений во всех компаниях
-            //var allAdGroups = await directClient.GetAllAdGroups();
-            //Получить все объявления в аккаунте
-            //var allAds = await directClient.GetAllAds();
+            log.Info($"DirectParserService background task is stopping.");
         }
 
-        private static void RegisterDependencies(IServiceCollection serviceCollection) {
+        public static void RegisterDirectParser(IServiceCollection serviceCollection)
+        {
             serviceCollection
                 .AddSingleton<ILog, DirectParserLogger>()
                 .AddSingleton<IAuthTokenProvider>(_ => new AuthTokenProvider(Constants.AUTH_TOKEN))
@@ -74,7 +60,8 @@ namespace Direct.Parser
                 .AddSingleton<CampaignsService>()
                 .AddSingleton<AdGroupsService>()
                 .AddSingleton<AdsService>()
-                .AddSingleton<DirectClient>();
+                .AddSingleton<DirectClient>()
+                .AddSingleton<DirectParser>();
         }
 
         public override void Dispose() {
