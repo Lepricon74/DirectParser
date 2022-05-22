@@ -39,26 +39,27 @@ namespace Direct.Client.Services
             return new Uri(uriProvider.GetUri().AbsoluteUri + "/ads");
         }
 
-        public async Task<AdsResponseResult> GetAds(long[] CampaignIds, long[] AdGroupsIds, string[] selectFields = null, string[] selectTextAdFields = null)
+        public async Task<AdsResponseResult> GetAds(
+            long[] CampaignIds, 
+            long[] AdGroupsIds, 
+            string[] selectFields = null, 
+            string[] selectTextAdFields = null)
         {
             var actionName = "GET-ALL-ADS";
-            DirectRequest<CommonRequestParams<AdsRequestSelectionCriteria>> GetRequestContent()
+            AdsRequestParams<AdsRequestSelectionCriteria> GetRequestContent()
             {
-                return new DirectRequest<CommonRequestParams<AdsRequestSelectionCriteria>>(
-                    "get",
-                    new AdsRequestParams<AdsRequestSelectionCriteria>(
-                        new AdsRequestSelectionCriteria(new long[] { }, AdGroupsIds, CampaignIds),
-                        selectFields == null ? Enum.GetNames(typeof(AvailableRequestFieldNames)) : selectFields,
-                        selectTextAdFields == null ? Enum.GetNames(typeof(AvailableRequestTextAdFieldNames)) : selectTextAdFields)
-                    );
+                return new AdsRequestParams<AdsRequestSelectionCriteria>(
+                    new AdsRequestSelectionCriteria(new long[] { }, AdGroupsIds, CampaignIds),
+                    selectFields == null ? Enum.GetNames(typeof(AvailableRequestFieldNames)) : selectFields,
+                    selectTextAdFields == null ? Enum.GetNames(typeof(AvailableRequestTextAdFieldNames)) : selectTextAdFields);
             }
-            var campaignsResponseResult = await directRequestSender.SendDirectRequest<
-                DirectRequest<CommonRequestParams<AdsRequestSelectionCriteria>>,
-                DirectResponse<AdsResponseResult>>(
+            var campaignsResponseResult = await directRequestSender.SendDirectGetRequest<
+                AdsRequestParams<AdsRequestSelectionCriteria>,
+                AdsResponseResult>(
                     GetRequestContent,
                     GetUriToAdGroupsService,
                     actionName);
-            return campaignsResponseResult.result;
+            return campaignsResponseResult;
         }
     }
 }

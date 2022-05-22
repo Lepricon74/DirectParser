@@ -1,12 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Vostok.Logging.Abstractions" Version="1.0.30" />
     <PackageReference Include="Vostok.Logging.Console" Version="1.0.8" />
     <PackageReference Include="Vostok.Logging.File" Version="1.0.20" />
@@ -15,5 +14,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Direct.Client\Direct.Client.csproj" />
   </ItemGroup>
-
 </Project>

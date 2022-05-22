@@ -38,21 +38,18 @@ namespace Direct.Client.Services
         public async Task<CampaignsResponseResult> GetAllCampaigns(string[] selectFields = null)
         {
             var actionName = "GET-ALL-CAMPAINGS";
-            DirectRequest<CommonRequestParams<CampaignsRequestSelectionCriteria>> GetRequestContent(){
-                return new DirectRequest<CommonRequestParams<CampaignsRequestSelectionCriteria>>(
-                    "get",
-                    new CommonRequestParams<CampaignsRequestSelectionCriteria>(
-                        new CampaignsRequestSelectionCriteria(new int[] { }),
-                        (selectFields == null) ? Enum.GetNames(typeof(AvailableRequestFieldNames)) : selectFields)
-                    );
+            CommonRequestParams<CampaignsRequestSelectionCriteria> GetRequestParams(){
+                return new CommonRequestParams<CampaignsRequestSelectionCriteria>(
+                    new CampaignsRequestSelectionCriteria(new int[] { }),
+                    (selectFields == null) ? Enum.GetNames(typeof(AvailableRequestFieldNames)) : selectFields);
             }
-            var campaignsResponseResult = await directRequestSender.SendDirectRequest<
-                DirectRequest<CommonRequestParams<CampaignsRequestSelectionCriteria>>,
-                DirectResponse<CampaignsResponseResult>>(
-                    GetRequestContent,
+            var campaignsResponseResult = await directRequestSender.SendDirectGetRequest<
+                CommonRequestParams<CampaignsRequestSelectionCriteria>,
+                CampaignsResponseResult>(
+                    GetRequestParams,
                     GetUriToCampaingsService,
                     actionName);
-            return campaignsResponseResult.result;
+            return campaignsResponseResult;
         }
     }
 }

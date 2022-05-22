@@ -15,7 +15,11 @@ namespace Direct.Client
         public AdsService adsService;
         public ILog log;
 
-        public DirectClient(ILog log, CampaignsService campaingsService, AdGroupsService adGroupsService, AdsService adsService) {
+        public DirectClient(
+            ILog log, 
+            CampaignsService campaingsService, 
+            AdGroupsService adGroupsService, 
+            AdsService adsService) {
             this.log = log;
             this.campaingsService = campaingsService;
             this.adGroupsService = adGroupsService;
@@ -28,13 +32,15 @@ namespace Direct.Client
 
         public async Task<AdGroupsResponseResult> GetAllAdGroups()
         {
-            var campaigns = await campaingsService.GetAllCampaigns(new string[]{CampaignsService.AvailableRequestFieldNames.Id.ToString()});
+            var campaigns = await campaingsService.GetAllCampaigns(
+                new string[]{CampaignsService.AvailableRequestFieldNames.Id.ToString()});
             var campaignsIds = campaigns?.Campaigns.Select(campaign => campaign.Id).ToArray();
             return await adGroupsService.GetAdGroups(campaignsIds);
         }
         public async Task<AdsResponseResult> GetAllAds()
         {
-            var campaigns = await campaingsService.GetAllCampaigns(new string[] { CampaignsService.AvailableRequestFieldNames.Id.ToString() });
+            var campaigns = await campaingsService.GetAllCampaigns(
+                new string[] { CampaignsService.AvailableRequestFieldNames.Id.ToString() });
             var campaignsIds = campaigns?.Campaigns.Select(campaign => campaign.Id).ToArray();
             return await adsService.GetAds(campaignsIds, new long[] { });
         }

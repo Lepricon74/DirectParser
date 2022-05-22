@@ -15,7 +15,8 @@ namespace Direct.Client.Helpers
                 .Where(propertyInfo => propertyInfo.GetCustomAttribute<NotNullAttribute>() != null)
                 .ToList()
                 .ForEach(propertyInfo => {
-                        if ( propertyInfo.GetValue(@class) == null ) throw new ArgumentNullException($"{propertyInfo.Name} cannot be null in {@class.GetType().Name}");
+                        if ( propertyInfo.GetValue(@class) == null ) 
+                        throw new ArgumentNullException($"{propertyInfo.Name} cannot be null in {@class.GetType().Name}");
                     }
                 );
         }
