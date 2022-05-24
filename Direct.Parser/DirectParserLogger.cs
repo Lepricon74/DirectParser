@@ -10,7 +10,7 @@ using Vostok.Logging.File.Configuration;
 
 namespace Direct.Parser
 {
-    internal class DirectParserLogger : ILog, IDisposable
+    public class DirectParserLogger : ILog, IDisposable
     {
         private readonly ILog log;
 

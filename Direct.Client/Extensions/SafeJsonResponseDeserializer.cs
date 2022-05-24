@@ -23,7 +23,8 @@ namespace Direct.Client.Extensions
                 JsonValidator.NullCheck(deserializeResult);
             }
             catch (ArgumentNullException ex) {
-                log.Warn(ex.Message);              
+                log.Warn(ex.Message);
+                throw new JsonException();
             }         
             return deserializeResult;
         }

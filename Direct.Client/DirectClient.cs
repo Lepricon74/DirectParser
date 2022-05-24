@@ -44,5 +44,9 @@ namespace Direct.Client
             var campaignsIds = campaigns?.Campaigns.Select(campaign => campaign.Id).ToArray();
             return await adsService.GetAds(campaignsIds, new long[] { });
         }
+        public async Task<AdsResponseResult> GetCampaingAds(long campaingId)
+        {
+            return await adsService.GetAds(new long[] { campaingId }, new long[] { });
+        }
     }
 }

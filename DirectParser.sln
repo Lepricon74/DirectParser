@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Direct.Runner", "Direct.Run
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Direct.Client", "Direct.Client\Direct.Client.csproj", "{4C7F1654-15BA-4ED4-93D8-F84CD1CBAE94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Direct.Parser", "Direct.Parser\Direct.Parser.csproj", "{15F72E2D-89C8-4FEE-B72F-82E453AD4C56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Direct.Parser", "Direct.Parser\Direct.Parser.csproj", "{15F72E2D-89C8-4FEE-B72F-82E453AD4C56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Direct.Web", "Direct.Web\Direct.Web.csproj", "{22C912F9-C8C0-4F8E-80D0-658402BC7C89}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{15F72E2D-89C8-4FEE-B72F-82E453AD4C56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15F72E2D-89C8-4FEE-B72F-82E453AD4C56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15F72E2D-89C8-4FEE-B72F-82E453AD4C56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22C912F9-C8C0-4F8E-80D0-658402BC7C89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22C912F9-C8C0-4F8E-80D0-658402BC7C89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22C912F9-C8C0-4F8E-80D0-658402BC7C89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22C912F9-C8C0-4F8E-80D0-658402BC7C89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
