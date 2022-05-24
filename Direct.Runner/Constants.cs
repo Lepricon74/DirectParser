@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Direct.Parser
+namespace Direct.Runner
 {
     internal static class Constants
     {

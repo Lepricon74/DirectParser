@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Direct.Parser.Models
+namespace Direct.Parser.Database.Interfaces
 {
-    internal class Campaign
+    internal interface IConnectionStringProvider
     {
     }
 }

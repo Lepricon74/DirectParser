@@ -11,6 +11,8 @@ using Vostok.Logging.Abstractions;
 using Microsoft.Extensions.Hosting;
 using System.Threading;
 using System;
+using Direct.Parser.Database.Models;
+using Direct.Parser.Database.Interfaces;
 
 namespace Direct.Parser
 {
@@ -18,23 +20,30 @@ namespace Direct.Parser
     {
         private readonly DirectClient directClient;
         private readonly ILog log;
+
         public DirectParser(DirectClient directClient, ILog log)
         {
             this.directClient = directClient;
             this.log = log;
         }
         
-        public async Task ParseAds()
+        public async Task ParseAds(IAdsRepository adsRepository)
         {
-            var allCampaigns = await directClient.GetAllCampaigns();
-            foreach (var campaign in allCampaigns.Campaigns) {
-                var campaingAds = await directClient.GetAllAds();
+            log.Info("START-PARSE-ADS-LIST");
+            var ads = await directClient.GetAllAds();
+            foreach (var ad in ads.Ads) {
+                var adPromotionEndDate = await TryGetAdPromotionEnd(ad.TextAd.Text);
+                var adForUpdate = new Ad(ad.Id, ad.AdGroupId, ad.CampaignId, ad.Type, ad.Status, ad.TextAd.Text, ad.TextAd.Title, adPromotionEndDate); 
+                await adsRepository.AddOrUpdateAd(adForUpdate);
             }
-            log.Info("Ads parsed!!!");
-            //Получить все группы объявлений во всех компаниях
-            //var allAdGroups = await directClient.GetAllAdGroups();
-            //Получить все объявления в аккаунте
-            //var allAds = await directClient.GetAllAds();
+            log.Info($"FINISH-PARSE-ADS-LIST");
+        }
+
+        private async Task<DateTime> TryGetAdPromotionEnd(string adText) 
+        {
+            var gen = new Random();
+            var result = DateTime.Today.AddDays(gen.Next(0, 60));
+            return result;
         }
     }
 }

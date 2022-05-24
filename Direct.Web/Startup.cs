@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.HttpOverrides;
-
+using Direct.Parser.Database;
 namespace Direct.Web
 {
     public class Startup
@@ -26,7 +26,7 @@ namespace Direct.Web
         {
             //string connection = Configuration.GetConnectionString("PostgreSQLLocalConnection");
             string connection = Configuration.GetConnectionString("PostgreSQLExternalConnection");
-            //services.AddDbContext<Context>(options => options.UseNpgsql(connection));
+            services.AddDbContext<DirectParserContex>(options => options.UseNpgsql(connection));
 
             services.AddControllersWithViews();
         }
