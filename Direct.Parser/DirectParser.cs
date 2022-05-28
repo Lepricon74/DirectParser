@@ -41,7 +41,10 @@ namespace Direct.Parser
 
         private async Task<DateTime?> TryGetAdPromotionEnd(string adText) 
         {
-            return DateParser.GetDateTimeFromText(adText);
+            var gen = new Random();
+            var result = DateTime.Today.AddDays(gen.Next(0, 60));
+            return result;
+            //return DateParser.GetDateTimeFromText(adText);
         }
     }
 }
