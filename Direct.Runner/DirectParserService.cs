@@ -1,22 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Direct.Client.Interfaces;
-using Direct.Client.Providers;
-using Direct.Client.Services;
-using Direct.Client;
-using System.Net.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Direct.Client.Extensions;
-using Direct.Client.Helpers;
 using Vostok.Logging.Abstractions;
 using Microsoft.Extensions.Hosting;
 using System.Threading;
 using Direct.Parser.Database.Interfaces;
-using Direct.Parser.Database.Repositories;
-using Direct.Parser.Database;
-using Microsoft.EntityFrameworkCore;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
-using Microsoft.Extensions.Configuration;
-using Direct.Parser.Database.Providers;
 using System;
 using Direct.Parser;
 
@@ -45,7 +31,10 @@ namespace Direct.Runner
             while (!stoppingToken.IsCancellationRequested)
             {
                 log.Info($"DirectParserService task doing background work.");
+                log.Info($"Task was started at " + DateTime.Now);
                 await directParser.ParseAds(getAdsRepository());
+                log.Info($"Task finished work at " + DateTime.Now);
+                log.Info($"DirectParserService task waiting for start time...");
                 await Task.Delay(10000, stoppingToken);
             }
 

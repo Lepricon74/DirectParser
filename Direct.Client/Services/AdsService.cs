@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Direct.Client.Models;
 using Direct.Client.Interfaces;
 using Direct.Client.Helpers;
 using Direct.Client.Models.Ads;

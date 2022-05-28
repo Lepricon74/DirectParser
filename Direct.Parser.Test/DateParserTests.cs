@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace Direct.Parser.Test
 {
@@ -24,9 +25,9 @@ namespace Direct.Parser.Test
 		}
 
 		[TestCaseSource(nameof(TestCases))]
-		public void DateParser_Should(string adText, DateTime expectedDate)
+		public async Task DateParser_Should(string adText, DateTime expectedDate)
 		{
-			var result = DateParser.GetDateTimeFromText(adText);
+			var result = await DateParser.GetDateTimeFromText(adText);
 
 			result.Should().BeSameDateAs(expectedDate);
 		}

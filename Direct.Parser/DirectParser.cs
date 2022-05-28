@@ -1,15 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Direct.Client.Interfaces;
-using Direct.Client.Providers;
-using Direct.Client.Services;
 using Direct.Client;
-using System.Net.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Direct.Client.Extensions;
-using Direct.Client.Helpers;
 using Vostok.Logging.Abstractions;
-using Microsoft.Extensions.Hosting;
-using System.Threading;
 using System;
 using Direct.Parser.Database.Models;
 using Direct.Parser.Database.Interfaces;
@@ -41,10 +32,10 @@ namespace Direct.Parser
 
         private async Task<DateTime?> TryGetAdPromotionEnd(string adText) 
         {
-            var gen = new Random();
-            var result = DateTime.Today.AddDays(gen.Next(0, 60));
-            return result;
-            //return DateParser.GetDateTimeFromText(adText);
+            //var gen = new Random();
+            //var result = DateTime.Today.AddDays(gen.Next(0, 60));
+            //return result;
+            return await DateParser.GetDateTimeFromText(adText);
         }
     }
 }

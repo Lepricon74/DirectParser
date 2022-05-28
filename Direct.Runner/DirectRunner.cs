@@ -9,16 +9,12 @@ using Direct.Client.Extensions;
 using Direct.Client.Helpers;
 using Vostok.Logging.Abstractions;
 using Microsoft.Extensions.Hosting;
-using System.Threading;
 using Direct.Parser.Database.Interfaces;
 using Direct.Parser.Database.Repositories;
 using Direct.Parser.Database;
 using Microsoft.EntityFrameworkCore;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.Extensions.Configuration;
-using Direct.Parser.Database.Providers;
 using Direct.Parser;
-using Direct.Parser.Database;
 using System;
 
 namespace Direct.Runner
@@ -36,7 +32,9 @@ namespace Direct.Runner
                 .ConfigureServices((_, services) =>
                 services
                     .AddSingleton<ILog, DirectParserLogger>()
-                    .AddSingleton<IAuthTokenProvider>(_ => new AuthTokenProvider(Constants.AUTH_TOKEN))
+                    .AddSingleton<IAuthTokenProvider>(sp => 
+                        new AuthTokenProvider(
+                            sp.GetService<IConfiguration>()["DirectSetting:AUTH_TOKEN"]))
                     .AddSingleton<IUriProvider, DirectApiSandboxUrlProvider>()
                     .AddSingleton<HttpClient>()
                     .AddSingleton<SafeJsonResponseDeserializer>()
