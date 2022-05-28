@@ -9,6 +9,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+Direct.Runner/Migrations
 Direct.Runner/appsettings.json
 Direct.Runner/appsettings.Development.json
 Direct.Web/appsettings.json
