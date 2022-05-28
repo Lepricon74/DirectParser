@@ -11,5 +11,5 @@ namespace Direct.Parser.Database.Models
         string Status,
         string TextAd,
         string Title,
-        DateTime promotionEndDate); 
+        DateTime? promotionEndDate); 
 }
