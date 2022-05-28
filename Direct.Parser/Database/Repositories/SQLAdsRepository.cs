@@ -28,10 +28,19 @@ namespace Direct.Parser.Database.Repositories
 
 		public async Task AddAd(Ad newAd)
 		{
-			db.Ads.Add(newAd);
-			await Save();
-			log.Info("Ad Was add in database ID: " + newAd.Id +
-				" Title: " + newAd.Title);
+			try
+			{
+				db.Ads.Add(newAd);
+				await Save();
+				log.Info(
+					"Ad Was add in database ID: " + newAd.Id +
+					"; Title: " + newAd.Title);
+			}
+			catch (InvalidOperationException ex) 
+			{
+				log.Error("Ad ID: " + newAd.Id + "database add fail: " + ex.Message);
+			}
+			
 		}
 
 		public async Task AddOrUpdateAd(Ad adForUpdate)
@@ -42,14 +51,27 @@ namespace Direct.Parser.Database.Repositories
 				await AddAd(adForUpdate);
 				return;
 			}
-			db.Ads.Update(adForUpdate);
-			await Save();
-			log.Warn(
-				"Ad was update ID: " + adForUpdate.Id +
-				" Title: " + adForUpdate.Title +
-				" Old Promotion end date: " + ad.promotionEndDate +
-				" New Promotion end date: " + adForUpdate.promotionEndDate);
-			return;
+			ad.Title = adForUpdate.Status;
+			ad.TextAd = adForUpdate.TextAd;
+			ad.Status = adForUpdate.Status;
+			ad.Status = adForUpdate.Status;
+			var oldPromotionEndDate = ad.promotionEndDate;
+			ad.promotionEndDate = adForUpdate.promotionEndDate;
+			try
+			{
+				db.Ads.Update(ad);
+				await Save();
+				log.Info(
+					"Ad was update ID: " + ad.Id +
+					"; Title: " + ad.Title +
+					"; AdText: " + ad.TextAd +
+					"; Old Promotion end date: " + oldPromotionEndDate +
+					"; New Promotion end date: " + ad.promotionEndDate);
+			}
+			catch (InvalidOperationException ex)
+			{
+				log.Error("Ad ID: " + adForUpdate.Id + " database update fail: " + ex.Message );
+			}		
 		}
 
 		public async Task DeleteAd(Ad adForDelete)
@@ -60,12 +82,18 @@ namespace Direct.Parser.Database.Repositories
 				log.Warn("Ad for delete was not foung ID:" + adForDelete.Id);
 				return;
 			}
-			db.Ads.Remove(ad);
-			await Save();
-			log.Warn(
-				"Ad was remove ID: " + adForDelete.Id + 
-				" Title: " + adForDelete.Title);
-			return;
+			try
+			{
+				db.Ads.Remove(ad);
+				await Save();
+				log.Info(
+					"Ad was remove ID: " + adForDelete.Id +
+					"; Title: " + adForDelete.Title);
+			}
+			catch (InvalidOperationException ex)
+			{
+				log.Error("Ad ID: " + adForDelete.Id + " database remove exception " + ex.Message);
+			}
 		}
 
 		private async Task Save()

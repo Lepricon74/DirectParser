@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Hors;
+using System.Threading.Tasks;
 
 namespace Direct.Parser
 {
 	public static class DateParser
 	{
-		public static DateTime? GetDateTimeFromText(string text)
+		public static async Task<DateTime?> GetDateTimeFromText(string text)
 		{
 			var res = GetDatesRegex(text);
 			if (res.Count == 0)
@@ -19,7 +20,6 @@ namespace Direct.Parser
 			}
 
 			return res.OrderByDescending(dt => dt.Date).FirstOrDefault();
-
 		}
 
 		private const string DATE_PATTERN = @"\d{2}.\d{2}";

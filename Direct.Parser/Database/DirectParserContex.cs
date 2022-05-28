@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Direct.Parser.Database.Models;
 
 namespace Direct.Parser.Database
