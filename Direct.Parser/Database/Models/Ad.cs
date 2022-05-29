@@ -11,7 +11,7 @@ namespace Direct.Parser.Database.Models
         public string Status { get; set; }
         public string TextAd { get; set; }
         public string Title { get; set; }
-        public DateTime? promotionEndDate { get; set; }
+        public DateTime?[] promotionEndDate { get; set; }
 
         public Ad(
             long Id, 
@@ -21,7 +21,7 @@ namespace Direct.Parser.Database.Models
             string Status, 
             string TextAd, 
             string Title, 
-            DateTime? promotionEndDate) {
+            DateTime?[] promotionEndDate) {
             this.Id = Id;
             this.AdGroupId = AdGroupId;
             this.CampaignId = CampaignId;

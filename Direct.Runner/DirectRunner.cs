@@ -61,7 +61,8 @@ namespace Direct.Runner
             var configuration = serviceProvider.GetService<IConfiguration>();
             return services.AddDbContext<DirectParserContex>(
                     options => options.UseNpgsql(
-                        configuration.GetConnectionString("PostgreSQLLocalConnection"), 
+                        //configuration.GetConnectionString("PostgreSQLLocalConnection"),
+                        configuration.GetConnectionString("PostgreSQLExternalConnection"),
                         b => b.MigrationsAssembly("Direct.Runner")));
         }
     }
