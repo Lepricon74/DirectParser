@@ -4,6 +4,7 @@ using Vostok.Logging.Abstractions;
 using System;
 using Direct.Parser.Database.Models;
 using Direct.Parser.Database.Interfaces;
+using Direct.Client.Models.Ads;
 
 namespace Direct.Parser
 {
@@ -21,11 +22,27 @@ namespace Direct.Parser
         public async Task ParseAds(IAdsRepository adsRepository)
         {
             log.Info("START-PARSE-ADS-LIST");
-            var ads = await directClient.GetAllAds();
-            foreach (var ad in ads.Ads) {
-                var adPromotionEndDate = await TryGetAdPromotionEnd(ad.TextAd.Text);
-                var adForUpdate = new Ad(ad.Id, ad.AdGroupId, ad.CampaignId, ad.Type, ad.Status, ad.TextAd.Text, ad.TextAd.Title, adPromotionEndDate); 
-                await adsRepository.AddOrUpdateAd(adForUpdate);
+            AdsResponseResult ads = default;
+            try
+            {
+                ads = await directClient.GetAllAds();
+            }
+            catch (Exception ex) {
+                log.Error($"GetAllAds Fail: " + ex.Message);
+            }
+            if (ads != default)
+            {
+                foreach (var ad in ads.Ads)
+                {
+                    var adTextPromotionEndDate = await TryGetAdPromotionEnd(ad.TextAd.Text);
+                    var adTitlePromotionEndDate = await TryGetAdPromotionEnd(ad.TextAd.Title);
+                    DateTime?[] resusltDates = new DateTime?[2] { adTextPromotionEndDate, adTitlePromotionEndDate };       
+                    var adForUpdate = new Ad(ad.Id, ad.AdGroupId, ad.CampaignId, ad.Type, ad.Status, ad.TextAd.Text, ad.TextAd.Title, resusltDates);
+                    await adsRepository.AddOrUpdateAd(adForUpdate);
+                }
+            }
+            else {
+                log.Warn($"Ads List was empty.");
             }
             log.Info($"FINISH-PARSE-ADS-LIST");
         }

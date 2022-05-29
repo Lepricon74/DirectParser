@@ -51,7 +51,7 @@ namespace Direct.Parser.Database.Repositories
 				await AddAd(adForUpdate);
 				return;
 			}
-			ad.Title = adForUpdate.Status;
+			ad.Title = adForUpdate.Title;
 			ad.TextAd = adForUpdate.TextAd;
 			ad.Status = adForUpdate.Status;
 			ad.Status = adForUpdate.Status;

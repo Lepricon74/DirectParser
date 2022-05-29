@@ -44,8 +44,8 @@ namespace Direct.Runner.Migrations
                     b.Property<string>("Type")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("promotionEndDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTime?[]>("promotionEndDate")
+                        .HasColumnType("timestamp without time zone[]");
 
                     b.HasKey("Id");
 

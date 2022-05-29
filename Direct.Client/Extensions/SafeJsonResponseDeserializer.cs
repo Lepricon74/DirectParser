@@ -15,6 +15,7 @@ namespace Direct.Client.Extensions
         { 
             this.log = log;
         }
+#nullable enable
         private ResponseType SafeDeserialize<ResponseType>(string json, JsonSerializerOptions? options = null) where ResponseType : class
         {
             var deserializeResult = JsonSerializer.Deserialize<ResponseType>(json, options);
