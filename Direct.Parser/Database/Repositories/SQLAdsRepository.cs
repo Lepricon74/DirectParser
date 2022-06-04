@@ -23,7 +23,16 @@ namespace Direct.Parser.Database.Repositories
 
 		public async Task<List<Ad>> GetAdList()
 		{
-			return await db.Ads.ToListAsync();
+			try
+			{
+				log.Info("Trying get all ads from database");
+				return await db.Ads.ToListAsync();
+			}
+			catch (Exception ex)
+			{
+				log.Error("Get all ads from database fail: " + ex.Message);
+			}
+			return null;
 		}
 
 		public async Task AddAd(Ad newAd)
