@@ -15,16 +15,12 @@ module.exports = {
      static: {
       directory: path.join(__dirname, "/"),
     },
-     port: 8081,
+     port: 8082,
      open: true,
-     headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-        "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-    },
      proxy: {
          '/api': {
-             target: 'http://192.168.1.243:90'
+             target: 'http://192.168.1.243:90',
+             secure: false
         }
     }
    },
