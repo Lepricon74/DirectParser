@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.HttpOverrides;
 using Direct.Parser.Database;
+using Vostok.Logging.Abstractions;
 namespace Direct.Web
 {
     public class Startup
@@ -27,7 +28,8 @@ namespace Direct.Web
             //string connection = Configuration.GetConnectionString("PostgreSQLLocalConnection");
             string connection = Configuration.GetConnectionString("PostgreSQLExternalConnection");
             services.AddDbContext<DirectParserContex>(options => options.UseNpgsql(connection));
-
+            services.AddSingleton<ILog, DirectWebLogger>();
+            services.AddCors();
             services.AddControllersWithViews();
         }
 
@@ -37,6 +39,8 @@ namespace Direct.Web
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
+
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseStaticFiles();
 
