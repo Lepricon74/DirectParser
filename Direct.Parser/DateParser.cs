@@ -9,8 +9,14 @@ namespace Direct.Parser
 {
 	public static class DateParser
 	{
+		private const string DATE_PATTERN = @"\d{2}.\d{2}";
+		private static readonly char[] SEPARATORS = {'/', ',', '.'};
+		private static readonly string[] STOP_WORDS = {"акция", "скидка", "скидки"};
 		public static async Task<DateTime?> GetDateTimeFromText(string text)
 		{
+			if (CheckStopWords(text))
+				return null;
+			
 			var res = GetDatesRegex(text);
 			if (res.Count == 0)
 			{
@@ -21,9 +27,6 @@ namespace Direct.Parser
 
 			return res.OrderByDescending(dt => dt.Date).FirstOrDefault();
 		}
-
-		private const string DATE_PATTERN = @"\d{2}.\d{2}";
-		private static readonly char[] SEPARATORS = {'/', ',', '.'};
 
 		private static List<DateTime> GetDatesRegex(string text)
 		{
@@ -46,6 +49,18 @@ namespace Direct.Parser
 			if (int.Parse(s.Substring(0, 1)) == 0)
 				s = s.Substring(1, 1);
 			return int.Parse(s);
+		}
+
+		private static bool CheckStopWords(string text)
+		{
+			var isContainStopWord = true;
+			foreach (var s in STOP_WORDS)
+			{
+				if (text.ToLower().Contains(s))
+					isContainStopWord = false;
+			}
+
+			return isContainStopWord;
 		}
 	}
 }
