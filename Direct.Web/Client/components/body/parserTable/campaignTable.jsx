@@ -28,7 +28,6 @@ class CampaingTable extends React.Component {
     render() {
       return (
         <div>
-            <p className="Table-header">Basic Table</p>
             <div>{'Campaign Id:' + this.props.campaignId}</div>
             <BootstrapTable keyField='id' data={ this.props.ads } columns={ columns } />
         </div>
