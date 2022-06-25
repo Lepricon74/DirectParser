@@ -35,7 +35,9 @@ namespace Direct.Runner
                     .AddSingleton<IAuthTokenProvider>(sp => 
                         new AuthTokenProvider(
                             sp.GetService<IConfiguration>()["DirectSetting:AUTH_TOKEN"]))
-                    .AddSingleton<IUriProvider, DirectApiSandboxUrlProvider>()
+                    .AddSingleton<IUriProvider>(sp => 
+                        new DirectApiUrlProvider(
+                            sp.GetService<IConfiguration>()["DirectSetting:DIRECT_API_URI"]))
                     .AddSingleton<HttpClient>()
                     .AddSingleton<SafeJsonResponseDeserializer>()
                     .AddSingleton<DirectHttpRequestBuilder>()
