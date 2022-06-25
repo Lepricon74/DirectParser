@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Direct.Parser.Database.Interfaces;
+﻿using Direct.Parser.Database.Interfaces;
 
 namespace Direct.Parser.Database.Providers
 {

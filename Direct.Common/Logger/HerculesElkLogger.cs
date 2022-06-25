@@ -6,19 +6,20 @@ using Vostok.Logging.Hercules.Configuration;
 using Vostok.Clusterclient.Core.Topology;
 using System.Collections.Generic;
 
-namespace Direct.Runner.Logger
+namespace Direct.Common.Logger
 {
-    public class DirectRunnerHerculesElkLogger : ILog
+    public class HerculesElkLogger : ILog
     {
         private readonly ILog log;
         private readonly Dictionary<string, object> properties;
 
-        public DirectRunnerHerculesElkLogger(
+        public HerculesElkLogger(
             ILog failOverLog, 
             string apiKey, 
             IClusterProvider clusterProvider,
             string environment,
-            string elkIndex
+            string elkIndex,
+            string project
             ) {
             Func<string> apiKeyProvider = () => { return apiKey;};
             var herculesSinkSetting = new HerculesSinkSettings(clusterProvider, apiKeyProvider);
@@ -27,8 +28,11 @@ namespace Direct.Runner.Logger
             var herculesLog = new HerculesLog(new HerculesLogSettings(herculesSink, "logs"));
 
             log = herculesLog;
-            properties = new Dictionary<string, object> { { "environment", environment }, { "elk-index", elkIndex } };
-            failOverLog.Info("Hercules Log was created with properties: " + properties.ToString());
+            properties = new Dictionary<string, object> { { "environment", environment }, { "elk-index", elkIndex }, { "project", project }};
+            failOverLog.Info("Hercules Log was created with properties - "
+                             + "Environment : " + properties["environment"]+",  "
+                             + "elk-index : " + properties["elk-index"]
+                             + "project : " + properties["project"]);
         }
 
         public void Log(LogEvent @event)

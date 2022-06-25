@@ -28,9 +28,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-    <PackageReference Include="Vostok.ClusterClient.Core" Version="0.1.45-pre000047" />
-    <PackageReference Include="Vostok.Hercules.Client" Version="0.1.20-pre000040" />
-    <PackageReference Include="Vostok.Logging.Hercules" Version="0.1.12-pre000025" />
+    <PackageReference Include="Vostok.Logging.Abstractions" Version="1.0.31-pre000060" />
   </ItemGroup>
   
   <ItemGroup>
@@ -40,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Direct.Common\Direct.Common.csproj" />
     <ProjectReference Include="..\Direct.Parser\Direct.Parser.csproj" />
   </ItemGroup>
 

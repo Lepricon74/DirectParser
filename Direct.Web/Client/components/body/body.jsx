@@ -54,7 +54,7 @@ class Body extends React.Component{
                 table.push(<CampaingTable campaignId={key} ads={value}/>)
             }
         } 
-        else{table.push(<img className='loader' src='static/images/spinner.gif' alt="spinner"/>)}
+        else{table.push(<img className='loader' src='./images/spinner.gif' alt="spinner"/>)}
         return (
             <div className='container'>
                 <main role='main' className='pb-3'>

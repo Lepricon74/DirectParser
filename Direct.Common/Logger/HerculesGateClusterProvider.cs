@@ -2,7 +2,7 @@ using System;
 using Vostok.Clusterclient.Core.Topology;
 using System.Collections.Generic;
 
-namespace Direct.Runner.Logger
+namespace Direct.Common.Logger
 {
     public class HerculesGateClusterProvider: IClusterProvider
     {

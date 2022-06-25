@@ -20,6 +20,10 @@ namespace Direct.Web.Controllers
         [Route("all")]
         public async Task<JsonResult> GetAllAds()
         {
+            log.Info("GET-ALL-ADS-REQUEST"
+                     + " HostAddress: " + (Request.HttpContext.Connection.RemoteIpAddress) + ","
+                     + " UserAgent: "+ (Request.Headers["User-Agent"])+","
+                     + " Platform: " + Request.Headers["sec-ch-ua-platform"]);
             var adsList = await adsRepository.GetAdList();
             var result = new JsonResult(adsList);
             return result;
