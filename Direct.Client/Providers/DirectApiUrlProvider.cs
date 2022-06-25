@@ -4,14 +4,14 @@ namespace Direct.Client.Providers
 {
     public class DirectApiUrlProvider : IUriProvider
     {
-        private readonly string uri;
+        private readonly Uri uri;
 
-        public DirectApiUrlProvider(string uri) { 
+        public DirectApiUrlProvider(Uri uri) { 
             this.uri = uri;
         }
         public Uri GetUri() 
         {
-            return new Uri("https://api-sandbox.direct.yandex.com/json/v5");
+            return uri;
         }
     }
 }

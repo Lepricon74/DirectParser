@@ -15,6 +15,7 @@ using Direct.Parser.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Direct.Parser;
+using Direct.Runner.Logger;
 using System;
 
 namespace Direct.Runner
@@ -31,13 +32,13 @@ namespace Direct.Runner
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((_, services) =>
                 services
-                    .AddSingleton<ILog, DirectParserLogger>()
+                    .AddLogger()
                     .AddSingleton<IAuthTokenProvider>(sp => 
                         new AuthTokenProvider(
                             sp.GetService<IConfiguration>()["DirectSetting:AUTH_TOKEN"]))
                     .AddSingleton<IUriProvider>(sp => 
                         new DirectApiUrlProvider(
-                            sp.GetService<IConfiguration>()["DirectSetting:DIRECT_API_URI"]))
+                            new Uri(sp.GetService<IConfiguration>()["DirectSetting:DIRECT_API_URI"])))
                     .AddSingleton<HttpClient>()
                     .AddSingleton<SafeJsonResponseDeserializer>()
                     .AddSingleton<DirectHttpRequestBuilder>()
@@ -66,6 +67,23 @@ namespace Direct.Runner
                         //configuration.GetConnectionString("PostgreSQLLocalConnection"),
                         configuration.GetConnectionString("PostgreSQLExternalConnection"),
                         b => b.MigrationsAssembly("Direct.Runner")));
+        }
+        
+        internal static IServiceCollection AddLogger(this IServiceCollection services)
+        {
+            var serviceProvider = services.BuildServiceProvider();
+            var configuration = serviceProvider.GetService<IConfiguration>();
+            var localLogger = new DirectRunnerLocalLogger();
+            var herculesLogger = new DirectRunnerHerculesElkLogger(
+                    localLogger,
+                    configuration["HerculesSettings:apiKey"],
+                    new HerculesGateClusterProvider(
+                            new Uri(configuration["HerculesSettings:herculesGateUri"])
+                        ),
+                    configuration["HerculesSettings:environment"],
+                    configuration["HerculesSettings:elkIndex"]
+                );
+            return services.AddSingleton<ILog>(_ => new CompositeLog(localLogger, herculesLogger));
         }
     }
 }

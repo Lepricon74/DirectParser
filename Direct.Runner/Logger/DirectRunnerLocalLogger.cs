@@ -8,15 +8,15 @@ using Vostok.Logging.Console;
 using System.Linq;
 using Vostok.Logging.File.Configuration;
 
-namespace Direct.Parser
+namespace Direct.Runner.Logger
 {
-    public class DirectParserLogger : ILog, IDisposable
+    public class DirectRunnerLocalLogger : ILog, IDisposable
     {
         private readonly ILog log;
 
         private readonly IEnumerable<IDisposable> disposableLoggers;
 
-        public DirectParserLogger() {
+        public DirectRunnerLocalLogger() {
             disposableLoggers = new List<IDisposable>();
             var settingsForAllLogs = new FileLogSettings {
                 RollingStrategy = new RollingStrategyOptions { Type = RollingStrategyType.ByTime },
