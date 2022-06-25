@@ -7,7 +7,6 @@ using Direct.Parser.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Vostok.Logging.Abstractions;
 
-
 namespace Direct.Parser.Database.Repositories
 {
     public class SQLAdsRepository : IAdsRepository
@@ -60,9 +59,16 @@ namespace Direct.Parser.Database.Repositories
 				await AddAd(adForUpdate);
 				return;
 			}
+			if(CompareAds(ad, adForUpdate))
+			{
+				log.Info(
+					"The information in the advertisement has not changed. No update required. Ad ID: " + ad.Id +
+					"; Title: " + ad.Title +
+					"; AdText: " + ad.TextAd);
+				return;
+			}
 			ad.Title = adForUpdate.Title;
 			ad.TextAd = adForUpdate.TextAd;
-			ad.Status = adForUpdate.Status;
 			ad.Status = adForUpdate.Status;
 			var oldPromotionEndDate = ad.promotionEndDate;
 			ad.promotionEndDate = adForUpdate.promotionEndDate;
@@ -74,13 +80,21 @@ namespace Direct.Parser.Database.Repositories
 					"Ad was update ID: " + ad.Id +
 					"; Title: " + ad.Title +
 					"; AdText: " + ad.TextAd +
-					"; Old Promotion end date: " + oldPromotionEndDate +
-					"; New Promotion end date: " + ad.promotionEndDate);
+					"; Old Promotion end date: " + string.Join(",", oldPromotionEndDate) +
+					"; New Promotion end date: " + string.Join(",", ad.promotionEndDate));
 			}
 			catch (InvalidOperationException ex)
 			{
 				log.Error("Ad ID: " + adForUpdate.Id + " database update fail: " + ex.Message );
 			}		
+		}
+
+		private bool CompareAds(Ad ad1, Ad ad2)
+		{
+			var arrayEqual = Enumerable.SequenceEqual(ad1.promotionEndDate, ad2.promotionEndDate);
+			if (ad1.Title == ad2.Title && ad1.TextAd == ad2.TextAd && ad1.Status == ad2.Status && arrayEqual)
+				return true;
+			return false;
 		}
 
 		public async Task DeleteAd(Ad adForDelete)

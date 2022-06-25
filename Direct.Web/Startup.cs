@@ -1,17 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.HttpOverrides;
 using Direct.Parser.Database;
 using Vostok.Logging.Abstractions;
+using Direct.Common.Logger;
+
 namespace Direct.Web
 {
     public class Startup
@@ -28,9 +25,25 @@ namespace Direct.Web
             //string connection = Configuration.GetConnectionString("PostgreSQLLocalConnection");
             string connection = Configuration.GetConnectionString("PostgreSQLExternalConnection");
             services.AddDbContext<DirectParserContex>(options => options.UseNpgsql(connection));
-            services.AddSingleton<ILog, DirectWebLogger>();
+            AddLogger(services);
             services.AddCors();
             services.AddControllersWithViews();
+        }
+        private void AddLogger(IServiceCollection services)
+        {
+            var serviceProvider = services.BuildServiceProvider();
+            var localLogger = new LocalLogger();
+            var herculesLogger = new HerculesElkLogger(
+                localLogger,
+                Configuration["HerculesSettings:apiKey"],
+                new HerculesGateClusterProvider(
+                    new Uri(Configuration["HerculesSettings:herculesGateUri"])
+                ),
+                Configuration["HerculesSettings:environment"],
+                Configuration["HerculesSettings:elkIndex"],
+                Configuration["HerculesSettings:project"]
+            );
+            services.AddSingleton<ILog>(_ => new CompositeLog(localLogger, herculesLogger));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

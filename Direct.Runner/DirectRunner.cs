@@ -15,6 +15,7 @@ using Direct.Parser.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Direct.Parser;
+using Direct.Common.Logger;
 using System;
 
 namespace Direct.Runner
@@ -31,11 +32,13 @@ namespace Direct.Runner
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((_, services) =>
                 services
-                    .AddSingleton<ILog, DirectParserLogger>()
+                    .AddLogger()
                     .AddSingleton<IAuthTokenProvider>(sp => 
                         new AuthTokenProvider(
                             sp.GetService<IConfiguration>()["DirectSetting:AUTH_TOKEN"]))
-                    .AddSingleton<IUriProvider, DirectApiSandboxUrlProvider>()
+                    .AddSingleton<IUriProvider>(sp => 
+                        new DirectApiUrlProvider(
+                            new Uri(sp.GetService<IConfiguration>()["DirectSetting:DIRECT_API_URI"])))
                     .AddSingleton<HttpClient>()
                     .AddSingleton<SafeJsonResponseDeserializer>()
                     .AddSingleton<DirectHttpRequestBuilder>()
@@ -51,7 +54,18 @@ namespace Direct.Runner
                         return new SQLAdsRepository(dbContex, log);
                     })
                     .AddSingleton<DirectParser>()
-                    .AddHostedService<DirectParserService>());
+                    .AddHostedService(sp => 
+                        new DirectParserService(
+                                sp.GetService<DirectParser>(),
+                                sp.GetService<ILog>(),
+                                sp.GetService<Func<IAdsRepository>>(),
+                                new TimeSpan(
+                                    days : Int32.Parse((sp.GetService<IConfiguration>()["ParserCycle:Days"])),
+                                    hours: Int32.Parse((sp.GetService<IConfiguration>()["ParserCycle:Hours"])),
+                                    minutes: Int32.Parse((sp.GetService<IConfiguration>()["ParserCycle:Minutes"])),
+                                    0
+                                    )
+                            )));
     }
 
     internal static class DependencyInjectionExtensions {
@@ -64,6 +78,24 @@ namespace Direct.Runner
                         //configuration.GetConnectionString("PostgreSQLLocalConnection"),
                         configuration.GetConnectionString("PostgreSQLExternalConnection"),
                         b => b.MigrationsAssembly("Direct.Runner")));
+        }
+        
+        internal static IServiceCollection AddLogger(this IServiceCollection services)
+        {
+            var serviceProvider = services.BuildServiceProvider();
+            var configuration = serviceProvider.GetService<IConfiguration>();
+            var localLogger = new LocalLogger();
+            var herculesLogger = new HerculesElkLogger(
+                    localLogger,
+                    configuration["HerculesSettings:apiKey"],
+                    new HerculesGateClusterProvider(
+                            new Uri(configuration["HerculesSettings:herculesGateUri"])
+                        ),
+                    configuration["HerculesSettings:environment"],
+                    configuration["HerculesSettings:elkIndex"],
+                    configuration["HerculesSettings:project"]
+                );
+            return services.AddSingleton<ILog>(_ => new CompositeLog(localLogger, herculesLogger));
         }
     }
 }

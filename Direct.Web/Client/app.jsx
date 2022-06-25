@@ -6,7 +6,9 @@ import Footer from './components/footer.jsx';
   
 ReactDOM.render(
     <div>
-        <link rel="stylesheet" href="./static/css/site.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap-theme.min.css"/>
+        <link rel="stylesheet" href="./css/site.css" />
         <Header/>
         <Body/>
         <Footer/>

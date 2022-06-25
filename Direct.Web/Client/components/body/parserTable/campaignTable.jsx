@@ -7,13 +7,15 @@ const columns = [{
 }, {
   dataField: 'adGroupId',
   text: 'Group Id'
-}, {
-    dataField: 'type',
-    text: 'Type'
-},{
-    dataField: 'status',
-    text: 'Status'
-},{
+ },
+// {
+//     dataField: 'type',
+//     text: 'Type'
+// },{
+//     dataField: 'status',
+//     text: 'Status'
+// },
+{
     dataField: 'textAd',
     text: 'Text'
 },{

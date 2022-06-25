@@ -34,6 +34,7 @@ namespace Direct.Parser
             {
                 foreach (var ad in ads.Ads)
                 {
+                    if (ad.Type!="TEXT_AD") continue;
                     var adTextPromotionEndDate = await TryGetAdPromotionEnd(ad.TextAd.Text);
                     var adTitlePromotionEndDate = await TryGetAdPromotionEnd(ad.TextAd.Title);
                     DateTime?[] resusltDates = new DateTime?[2] { adTextPromotionEndDate, adTitlePromotionEndDate };       

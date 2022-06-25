@@ -1,25 +1,23 @@
-﻿using Direct.Web.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
+using Vostok.Logging.Abstractions;
 
 namespace Direct.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILog log;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILog _log)
         {
-            _logger = logger;
+            log = _log;
         }
 
         public IActionResult Index()
         {
+            log.Info("GET-MAIN-APP-REQUEST"
+                     + " HostAddress: " + (Request.HttpContext.Connection.RemoteIpAddress) + ","
+                     + " UserAgent: "+ (Request.Headers["User-Agent"])+","
+                     + " Platform: " + Request.Headers["sec-ch-ua-platform"]);
             return View();
         }
     }

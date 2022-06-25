@@ -18,10 +18,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
-    <PackageReference Include="Vostok.Logging.Abstractions" Version="1.0.30" />
+    <PackageReference Include="Vostok.Logging.Abstractions" Version="1.0.31-pre000060" />
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\Direct.Common\Direct.Common.csproj" />
     <ProjectReference Include="..\Direct.Parser\Direct.Parser.csproj" />
   </ItemGroup>
   

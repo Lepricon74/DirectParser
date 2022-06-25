@@ -10,8 +10,6 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
     <PackageReference Include="Vostok.Logging.Abstractions" Version="1.0.30" />
-    <PackageReference Include="Vostok.Logging.Console" Version="1.0.8" />
-    <PackageReference Include="Vostok.Logging.File" Version="1.0.20" />
   </ItemGroup>
 
   <ItemGroup>
