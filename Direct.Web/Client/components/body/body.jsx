@@ -5,14 +5,34 @@ class Body extends React.Component{
  
     constructor(){
         super();
-        this.state = {ads:null}
-    } 
+        this.state = {ads:null,filterDate:null,filterOrder:null, originalArr: null}
+    }
+
+    updateAds(e) {
+        let select = document.getElementById('filter-select');
+        let value = select.options[select.selectedIndex].value;
+        
+        const filterArr = {};
+            const filterRow = [];
+            for (let arr of Object.values(this.state.originalArr)){
+                let test = arr.filter(item => item.promotionEndDate != 'В объявлении нет акций')
+                test.sort((a,b)=>{
+                    return new Date(a.promotionEndDate) - new Date(b.promotionEndDate);
+                })
+                filterRow.push(test);
+            }
+            let index = 0;
+            for (let key in this.state.originalArr){
+                filterArr[key] = filterRow[index];
+                index++;
+            }
+            this.setState({ads:filterArr})
+    }
 
     async componentDidMount(){
         const groupByCampaignId = this.groupBy("campaignId");
         try {
-            let adsList = await fetch('/api/ads/all');
-            let result = await adsList.json();
+            let result = await (await fetch('/api/ads/all')).json();
             result.map(function(item) {
                 let stopFlag = false;
                 let prev = null;
@@ -37,8 +57,8 @@ class Body extends React.Component{
                     if(stopFlag!=true) item.promotionEndDate=prev.toDateString();
                 }
             });
-            
             let campaignGroupsResult = groupByCampaignId(result);
+            this.setState({originalArr:campaignGroupsResult})
             this.setState({ads:campaignGroupsResult})
           } catch (e) {
                 let a = e;
@@ -57,6 +77,15 @@ class Body extends React.Component{
         else{table.push(<img className='loader' src='./images/spinner.gif' alt="spinner"/>)}
         return (
             <div className='container'>
+                <div id='filter-container'>
+                <select id='filter-select' onChange ={() => this.updateAds()}>
+                    <option selected disabled>Фильтрация объявлений по</option>
+                    <option value="1">Убыванию</option>
+                    <option value="2">Возрастанию</option>
+                    <option value="0">Без фильтра</option>
+   </select>
+                <button id='filter-ads' onClick={() => this.updateAds()}>Отфильтровать объявления</button>
+                </div>
                 <main role='main' className='pb-3'>
                     {table}
                 </main>
