@@ -8,26 +8,45 @@ class Body extends React.Component{
         this.state = {ads:null,filterDate:null,filterOrder:null, originalArr: null}
     }
 
-    updateAds(e) {
+    filterAds() {
         let select = document.getElementById('filter-select');
-        let value = select.options[select.selectedIndex].value;
-        
+        let inputStartDate= document.getElementById('start-date');
+        let inputEndDate= document.getElementById('end-date');
+
+        let selectValue = select.options[select.selectedIndex].value;
+        let startDate = null;
+        let endDate = null;
+        if (inputStartDate.value !== '' && inputEndDate.value !== ''){
+            startDate = new Date(inputStartDate.value);
+            endDate = new Date(inputEndDate.value);
+        }
+
         const filterArr = {};
-            const filterRow = [];
+        const filterInnerArr = [];
+
             for (let arr of Object.values(this.state.originalArr)){
-                let test = arr.filter(item => item.promotionEndDate != 'В объявлении нет акций')
-                test.sort((a,b)=>{
-                    return new Date(a.promotionEndDate) - new Date(b.promotionEndDate);
+                const filterDate = endDate === null ? arr: arr.filter(item => new Date (item.promotionEndDate) >= startDate &&
+                 new Date (item.promotionEndDate) <= endDate);
+                 if (selectValue === '0'){
+                    filterInnerArr.push(filterDate);
+                    continue;
+                }
+                const stringsRow = arr.filter(item => item.promotionEndDate == 'В объявлении нет акций');
+                let innerArr = filterDate.filter(item => item.promotionEndDate != 'В объявлении нет акций');
+                innerArr.sort((a,b)=>{
+                    return selectValue === '1' ? new Date(b.promotionEndDate) - new Date(a.promotionEndDate): 
+                    new Date(a.promotionEndDate) - new Date(b.promotionEndDate);
                 })
-                filterRow.push(test);
+                filterInnerArr.push(innerArr.concat(stringsRow));
             }
             let index = 0;
             for (let key in this.state.originalArr){
-                filterArr[key] = filterRow[index];
+                filterArr[key] = filterInnerArr[index];
                 index++;
             }
             this.setState({ads:filterArr})
     }
+
 
     async componentDidMount(){
         const groupByCampaignId = this.groupBy("campaignId");
@@ -78,13 +97,15 @@ class Body extends React.Component{
         return (
             <div className='container'>
                 <div id='filter-container'>
-                <select id='filter-select' onChange ={() => this.updateAds()}>
-                    <option selected disabled>Фильтрация объявлений по</option>
+                <select id='filter-select'>
+                    <option value='0' selected disabled>Фильтрация объявлений по</option>
                     <option value="1">Убыванию</option>
                     <option value="2">Возрастанию</option>
                     <option value="0">Без фильтра</option>
    </select>
-                <button id='filter-ads' onClick={() => this.updateAds()}>Отфильтровать объявления</button>
+                <label>От<input className='filter-date'  id='start-date'type='datetime-local'></input></label>
+                <label>До<input className='filter-date'  id='end-date' type='datetime-local'></input></label>
+                <button id='filter-ads' onClick={() => this.filterAds()}>Отфильтровать объявления</button>
                 </div>
                 <main role='main' className='pb-3'>
                     {table}

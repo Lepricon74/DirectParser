@@ -1,6 +1,5 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
-
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -65,14 +64,30 @@ body {
 
 #filter-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin-bottom: 10px;
+  justify-content: center;
+}
+
+.filter-date{
+  margin: auto 20px;
+  width: 200px;
+  height: 60px;
+  cursor: pointer;
+}
+
+#filter-select {
+  width: 250px;
+  height: 60px;
+  cursor: pointer;
+  margin-right: 20px;
 }
 
 #filter-ads{
   width: 200px;
-  height: 50px;
+  height: 60px;
   cursor: pointer;
+  margin: 0 20px;
 }
 .footer {
   position: absolute;
