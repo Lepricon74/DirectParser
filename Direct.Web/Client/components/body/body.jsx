@@ -30,7 +30,7 @@ class Body extends React.Component{
         let endDate = null;
         //Показ ошибки, если второе поле не заполнено
         if(inputStartDate.value !== '' && inputEndDate.value === ''){
-            alert("Укажите вторую дату для фильтрайии объвлений")
+            alert("Укажите вторую дату для фильтрации объявлений")
             return;
         }
         if (inputStartDate.value !== '' && inputEndDate.value !== ''){
@@ -40,7 +40,6 @@ class Body extends React.Component{
 
         const filterArr = {};
         const filterInnerArr = [];
-
             for (let arr of Object.values(this.state.originalArr)){
                 //Фильтр по двум датам
                 const filterDate = endDate === null ? arr: arr.filter(item => new Date (item.promotionEndDate) >= startDate &&
