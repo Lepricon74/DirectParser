@@ -8,6 +8,18 @@ class Body extends React.Component{
         this.state = {ads:null,filterDate:null,filterOrder:null, originalArr: null}
     }
 
+    onChangeCalendar() {
+        //Выключить/включить второе поле для ввода даты
+        const endDateCalendar = document.getElementById('end-date');
+        const startDateCalendar = document.getElementById('start-date');
+        if (startDateCalendar.value === '') {
+            endDateCalendar.value = ''
+            endDateCalendar.disabled = true;
+            return;
+        }
+        endDateCalendar.disabled = false;
+    }
+
     filterAds() {
         let select = document.getElementById('filter-select');
         let inputStartDate= document.getElementById('start-date');
@@ -16,6 +28,11 @@ class Body extends React.Component{
         let selectValue = select.options[select.selectedIndex].value;
         let startDate = null;
         let endDate = null;
+        //Показ ошибки, если второе поле не заполнено
+        if(inputStartDate.value !== '' && inputEndDate.value === ''){
+            alert("Укажите вторую дату для фильтрайии объвлений")
+            return;
+        }
         if (inputStartDate.value !== '' && inputEndDate.value !== ''){
             startDate = new Date(inputStartDate.value);
             endDate = new Date(inputEndDate.value);
@@ -25,19 +42,23 @@ class Body extends React.Component{
         const filterInnerArr = [];
 
             for (let arr of Object.values(this.state.originalArr)){
+                //Фильтр по двум датам
                 const filterDate = endDate === null ? arr: arr.filter(item => new Date (item.promotionEndDate) >= startDate &&
                  new Date (item.promotionEndDate) <= endDate);
                  if (selectValue === '0'){
                     filterInnerArr.push(filterDate);
                     continue;
                 }
+                //Получение строк, в которых нет даты
                 const stringsRow = arr.filter(item => item.promotionEndDate == 'В объявлении нет акций');
                 let innerArr = filterDate.filter(item => item.promotionEndDate != 'В объявлении нет акций');
+                //Сортировка согласно выбранному значению в input
                 innerArr.sort((a,b)=>{
                     return selectValue === '1' ? new Date(b.promotionEndDate) - new Date(a.promotionEndDate): 
                     new Date(a.promotionEndDate) - new Date(b.promotionEndDate);
                 })
-                filterInnerArr.push(innerArr.concat(stringsRow));
+                //Если есть сортировка по датам, то не добавлять строки без даты в конце
+                filterInnerArr.push(inputEndDate.value !== '' ? innerArr : innerArr.concat(stringsRow));
             }
             let index = 0;
             for (let key in this.state.originalArr){
@@ -103,8 +124,8 @@ class Body extends React.Component{
                     <option value="2">Возрастанию</option>
                     <option value="0">Без фильтра</option>
    </select>
-                <label>От<input className='filter-date'  id='start-date'type='datetime-local'></input></label>
-                <label>До<input className='filter-date'  id='end-date' type='datetime-local'></input></label>
+                <label>От:<input className='filter-date' onChange={()=> this.onChangeCalendar()} id='start-date'type='datetime-local'></input></label>
+                <label>До:<input disabled className='filter-date'  id='end-date' type='datetime-local'></input></label>
                 <button id='filter-ads' onClick={() => this.filterAds()}>Отфильтровать объявления</button>
                 </div>
                 <main role='main' className='pb-3'>
