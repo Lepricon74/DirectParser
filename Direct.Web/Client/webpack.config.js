@@ -19,8 +19,8 @@ module.exports = {
      open: true,
      proxy: {
          '/api': {
-             //target: 'http://192.168.1.243:90',
-             target: 'http://localhost:5010',
+             target: 'http://89.108.88.254:84',
+             //target: 'http://localhost:5010',
              secure: false
         }
     }
