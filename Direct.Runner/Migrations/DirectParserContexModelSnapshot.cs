@@ -51,6 +51,25 @@ namespace Direct.Runner.Migrations
 
                     b.ToTable("Ads");
                 });
+
+            modelBuilder.Entity("Direct.Parser.Database.Models.AdImage", b =>
+                {
+                    b.Property<string>("ImageHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ImageText")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("PromotionEndDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("ImageHash");
+
+                    b.ToTable("AdImages");
+                });
 #pragma warning restore 612, 618
         }
     }

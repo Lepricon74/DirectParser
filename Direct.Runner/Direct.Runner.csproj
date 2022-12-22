@@ -39,6 +39,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Direct.Common\Direct.Common.csproj" />
+    <ProjectReference Include="..\Direct.ImageRecognitionClient\Direct.ImageRecognitionClient.csproj" />
     <ProjectReference Include="..\Direct.Parser\Direct.Parser.csproj" />
   </ItemGroup>
 

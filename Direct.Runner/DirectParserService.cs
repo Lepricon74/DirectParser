@@ -15,12 +15,15 @@ namespace Direct.Runner
         private readonly DirectParser directParser;
         private readonly ILog log;
         private readonly Func<IAdsRepository> getAdsRepository;
+        private readonly Func<IAdImagesRepository> getAdImagesRepository;
         private readonly TimeSpan cyclePeriod;
-        public DirectParserService(DirectParser directParser, ILog log, Func<IAdsRepository> getAdsRepository, TimeSpan cyclePeriod) {
+        public DirectParserService(DirectParser directParser, ILog log, Func<IAdsRepository> getAdsRepository, 
+            Func<IAdImagesRepository> getAdImagesRepository, TimeSpan cyclePeriod) {
             this.log = log;
             this.directParser = directParser;
             this.getAdsRepository = getAdsRepository;
             this.cyclePeriod = cyclePeriod;
+            this.getAdImagesRepository = getAdImagesRepository;
         }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -35,6 +38,7 @@ namespace Direct.Runner
                 log.Info($"DirectParserService task doing background work.");
                 log.Info($"Task was started at " + DateTime.Now);
                 await directParser.ParseAds(getAdsRepository());
+                await directParser.ParseAdImages(getAdImagesRepository());
                 log.Info($"Task finished work at " + DateTime.Now);
                 log.Info($"DirectParserService task waiting for start time...");
                 await Task.Delay(cyclePeriod, stoppingToken);

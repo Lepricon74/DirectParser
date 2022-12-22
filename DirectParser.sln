@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Direct.Parser.Test", "Direc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Direct.Common", "Direct.Common\Direct.Common.csproj", "{D7CCD6C9-6739-4205-8CE9-B4600002E3D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Direct.Shared", "Direct.Shared\Direct.Shared.csproj", "{9225F43E-A97A-4761-AF1E-D0420E8A1F9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Direct.ImageRecognitionClient", "Direct.ImageRecognitionClient\Direct.ImageRecognitionClient.csproj", "{A024DCBD-505F-4951-B837-61929DB86BF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{D7CCD6C9-6739-4205-8CE9-B4600002E3D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7CCD6C9-6739-4205-8CE9-B4600002E3D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7CCD6C9-6739-4205-8CE9-B4600002E3D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9225F43E-A97A-4761-AF1E-D0420E8A1F9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9225F43E-A97A-4761-AF1E-D0420E8A1F9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9225F43E-A97A-4761-AF1E-D0420E8A1F9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9225F43E-A97A-4761-AF1E-D0420E8A1F9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A024DCBD-505F-4951-B837-61929DB86BF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A024DCBD-505F-4951-B837-61929DB86BF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A024DCBD-505F-4951-B837-61929DB86BF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A024DCBD-505F-4951-B837-61929DB86BF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

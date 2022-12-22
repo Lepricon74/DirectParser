@@ -6,6 +6,8 @@ using Vostok.Logging.Abstractions;
 using System.Text.Json;
 using Direct.Client.Extensions;
 using Direct.Client.Models;
+using Direct.Shared.Common;
+using Direct.Shared.Extensions;
 
 namespace Direct.Client.Helpers
 {
@@ -43,7 +45,7 @@ namespace Direct.Client.Helpers
 
             log.Info($"START-REQUEST-{actionName}\n" +
                 $"{LOG_PREFIX}Uri: {request.RequestUri}\n" +
-                $"{LOG_PREFIX}RequestBody: {ConvertJsonToStringForPrint(jsonRequestContent, $"{LOG_PREFIX}")}");
+                $"{LOG_PREFIX}RequestBody: {Converter.ConvertJsonToStringForPrint(jsonRequestContent, $"{LOG_PREFIX}")}");
             var result = await httpClient.SafeSendAsync(request, log);
             if (result == null)
             {
@@ -58,37 +60,6 @@ namespace Direct.Client.Helpers
                 return deserializeResult.result;
             }
             else return default;
-        }
-
-        private string ConvertJsonToStringForPrint(string jsonString, string logPrefix) 
-        {
-            var sb = new StringBuilder();
-            var isArray = false;
-            string curPrefix = logPrefix+'\t';
-            sb.Append('\n'+curPrefix);
-            foreach (var symbol in jsonString)
-            {
-                if (symbol == '}')
-                {
-                    sb.Append("\n");
-                    curPrefix = curPrefix.Remove(curPrefix.Length - 1);
-                    sb.Append(curPrefix);
-                }
-                sb.Append(symbol);
-                if (symbol == '{') {
-                    sb.Append("\n");
-                    curPrefix = curPrefix + "\t";
-                    sb.Append(curPrefix);
-                }  
-                if (symbol == '[') isArray = true;
-                if (symbol == ']') isArray = false;
-                if (symbol == ',' && isArray == false)
-                {
-                    sb.Append("\n");
-                    sb.Append(curPrefix);
-                }
-            }
-            return sb.ToString();
         }
     }
 }

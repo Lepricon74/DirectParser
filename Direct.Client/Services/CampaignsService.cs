@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Direct.Client.Models;
 using Direct.Client.Models.Campaings;
-using Direct.Client.Interfaces;
 using Direct.Client.Helpers;
+using Direct.Client.Interfaces;
 using Direct.Client.Models.Campaigns;
 
 namespace Direct.Client.Services

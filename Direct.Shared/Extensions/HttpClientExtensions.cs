@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Vostok.Logging.Abstractions;
-namespace Direct.Client.Extensions
+namespace Direct.Shared.Extensions
 {
     public static class HttpClientExtensions
     {
