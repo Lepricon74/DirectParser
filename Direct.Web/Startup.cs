@@ -22,8 +22,8 @@ namespace Direct.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            string connection = Configuration.GetConnectionString("PostgreSQLLocalConnection");
-            //string connection = Configuration.GetConnectionString("PostgreSQLExternalConnection");
+            //string connection = Configuration.GetConnectionString("PostgreSQLLocalConnection");
+            string connection = Configuration.GetConnectionString("PostgreSQLExternalConnection");
             services.AddDbContext<DirectParserContex>(options => options.UseNpgsql(connection));
             AddLogger(services);
             services.AddCors();
