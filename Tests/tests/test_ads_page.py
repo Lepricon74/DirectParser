@@ -30,6 +30,10 @@ class TestPresenceInMainPage:
         page.open()
         page.should_be_second_date_input_disabled()
 
+
+class TestFilter:
+    LINK = 'http://89.108.88.254:84/'
+
     @pytest.mark.filter
     def test_second_date_input_should_be_enabled_after_choose_first_date(self, browser):
         page = AdsPage(browser, self.LINK)
