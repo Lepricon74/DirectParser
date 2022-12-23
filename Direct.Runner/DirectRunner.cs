@@ -113,7 +113,8 @@ namespace Direct.Runner
                     configuration["HerculesSettings:elkIndex"],
                     configuration["HerculesSettings:project"]
                 );
-            return services.AddSingleton<ILog>(_ => new CompositeLog(localLogger, herculesLogger));
+            //return services.AddSingleton<ILog>(_ => new CompositeLog(localLogger, herculesLogger));
+            return services.AddSingleton<ILog>(_ => localLogger);
         }
     }
 }
