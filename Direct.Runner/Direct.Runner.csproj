@@ -28,7 +28,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-    <PackageReference Include="Vostok.Logging.Abstractions" Version="1.0.31-pre000060" />
+    <PackageReference Include="Vostok.Logging.Abstractions" Version="1.0.30" />
   </ItemGroup>
   
   <ItemGroup>
@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Direct.Common\Direct.Common.csproj" />
+    <ProjectReference Include="..\Direct.Shared\Direct.Shared.csproj" />
     <ProjectReference Include="..\Direct.ImageRecognitionClient\Direct.ImageRecognitionClient.csproj" />
     <ProjectReference Include="..\Direct.Parser\Direct.Parser.csproj" />
   </ItemGroup>

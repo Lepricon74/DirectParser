@@ -15,7 +15,7 @@ using Direct.Parser.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Direct.Parser;
-using Direct.Common.Logger;
+using Direct.Shared.Logger;
 using System;
 using Direct.ImageRecognitionClient;
 using Direct.ImageRecognitionClient.Helpers;

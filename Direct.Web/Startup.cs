@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.HttpOverrides;
 using Direct.Parser.Database;
 using Vostok.Logging.Abstractions;
-using Direct.Common.Logger;
+using Direct.Shared.Logger;
 
 namespace Direct.Web
 {
