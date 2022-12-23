@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Direct.Client.Models;
-using Direct.Client.Interfaces;
 using Direct.Client.Helpers;
+using Direct.Client.Interfaces;
 using Direct.Client.Models.AdGroups;
 
 namespace Direct.Client.Services

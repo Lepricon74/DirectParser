@@ -14,5 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Direct.Client\Direct.Client.csproj" />
+    <ProjectReference Include="..\Direct.ImageRecognitionClient\Direct.ImageRecognitionClient.csproj" />
   </ItemGroup>
 </Project>

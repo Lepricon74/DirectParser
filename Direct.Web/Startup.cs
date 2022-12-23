@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.HttpOverrides;
 using Direct.Parser.Database;
 using Vostok.Logging.Abstractions;
-using Direct.Common.Logger;
+using Direct.Shared.Logger;
 
 namespace Direct.Web
 {
@@ -43,7 +43,8 @@ namespace Direct.Web
                 Configuration["HerculesSettings:elkIndex"],
                 Configuration["HerculesSettings:project"]
             );
-            services.AddSingleton<ILog>(_ => new CompositeLog(localLogger, herculesLogger));
+            //services.AddSingleton<ILog>(_ => new CompositeLog(localLogger, herculesLogger));
+            services.AddSingleton<ILog>(_ => localLogger);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

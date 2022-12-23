@@ -8,7 +8,7 @@ using Vostok.Logging.Console;
 using System.Linq;
 using Vostok.Logging.File.Configuration;
 
-namespace Direct.Common.Logger
+namespace Direct.Shared.Logger
 {
     public class LocalLogger : ILog, IDisposable
     {

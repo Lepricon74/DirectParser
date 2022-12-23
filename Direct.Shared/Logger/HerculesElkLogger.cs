@@ -6,7 +6,7 @@ using Vostok.Logging.Hercules.Configuration;
 using Vostok.Clusterclient.Core.Topology;
 using System.Collections.Generic;
 
-namespace Direct.Common.Logger
+namespace Direct.Shared.Logger
 {
     public class HerculesElkLogger : ILog
     {
